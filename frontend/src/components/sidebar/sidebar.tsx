@@ -10,6 +10,7 @@ import {
 import classes from "./sidebar.module.scss";
 import { useModal } from "@/src/hooks/useModal";
 import classNames from "classnames";
+import { UserButton, UserProfile } from "@clerk/nextjs";
 
 interface Props {
   className?: string;
@@ -56,6 +57,7 @@ export const Sidebar: React.FC<Props> = ({ className }) => {
             <IconSun radius={100} />
           )}
         </Button>
+        <UserButton />
       </Stack>
     </nav>
   );

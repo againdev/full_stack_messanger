@@ -5,6 +5,7 @@ import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import React from "react";
 import { ClerkProvider } from "@clerk/nextjs";
 import "@mantine/core/styles.css";
+import ApolloWrapper from "../apolo/apoloWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,13 +37,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <MantineProvider>
-          <ClerkProvider
-            publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-          >
-            {children}
-          </ClerkProvider>
-        </MantineProvider>
+        <ApolloWrapper>
+          <MantineProvider>
+            <ClerkProvider
+              publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+            >
+              {children}
+            </ClerkProvider>
+          </MantineProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );
