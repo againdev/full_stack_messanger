@@ -16,12 +16,26 @@ import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import React from "react";
 import classes from "./CreateServerModal.module.scss";
 import { IconUpload, IconX } from "@tabler/icons-react";
+import { useMutation } from "@apollo/client";
+import { CREATE_SERVER } from "@/src/graphql/mutations/server/CreateServer";
+import {
+  CreateServerMutation,
+  CreateServerMutationVariables,
+} from "@/src/gql/graphql";
+import { useProfileStore } from "@/src/store/profileStore";
 
 interface Props {
   className?: string;
 }
 
 export const CreateServerModal: React.FC<Props> = ({ className }) => {
+  const [createServer, { loading, error }] = useMutation<
+    CreateServerMutation,
+    CreateServerMutationVariables
+  >(CREATE_SERVER);
+
+  const profileId = useProfileStore((state) => state.profile?.id);
+
   const { isOpen, closeModal } = useModal("CreateServer");
   const form = useForm({
     initialValues: {
@@ -31,6 +45,27 @@ export const CreateServerModal: React.FC<Props> = ({ className }) => {
       name: (value) => !value.trim() && "Please enter a name.",
     },
   });
+
+  const onSubmit = () => {
+    if (!form.validate()) return;
+
+    createServer({
+      variables: {
+        input: {
+          name: form.values.name,
+          profileId,
+        },
+        file,
+      },
+      onCompleted: () => {
+        setImagePreview(null);
+        setFile(null);
+        form.reset();
+        closeModal();
+      },
+      refetchQueries: ["GetServers"],
+    });
+  };
 
   const [imagePreview, setImagePreview] = React.useState<string | null>(null);
 
@@ -50,12 +85,17 @@ export const CreateServerModal: React.FC<Props> = ({ className }) => {
   console.log(file);
 
   return (
-    <Modal className={className} title="Create a server" opened={isOpen} onClose={closeModal}>
+    <Modal
+      className={className}
+      title="Create a server"
+      opened={isOpen}
+      onClose={closeModal}
+    >
       <Text>
         Give your server personality with a name an image. You can always change
         it later.
       </Text>
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form onSubmit={form.onSubmit(() => onSubmit())}>
         <Stack>
           <Flex justify="center" align="center" direction="column">
             {!imagePreview && (
@@ -89,11 +129,16 @@ export const CreateServerModal: React.FC<Props> = ({ className }) => {
               </Dropzone>
             )}
 
+            {error?.message && !file && <Text c="red">{error?.message}</Text>}
+
             {imagePreview && (
               <Flex pos="relative" w={rem(150)} h={rem(150)} mt="md">
                 <>
                   <Button
-                    onClick={() => setImagePreview(null)}
+                    onClick={() => {
+                      setImagePreview(null);
+                      setFile(null);
+                    }}
                     color="red"
                     pos="absolute"
                     style={{
@@ -125,8 +170,8 @@ export const CreateServerModal: React.FC<Props> = ({ className }) => {
             error={form.errors.name}
           />
           <Button
-            disabled={!!form.errors.name}
-            w={"30%"}
+            disabled={!!form.errors.name || loading}
+            w={"50%"}
             type="submit"
             variant={"gradient"}
             mt="md"
