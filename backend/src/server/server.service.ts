@@ -57,6 +57,10 @@ export class ServerService {
           },
         },
       },
+      include: {
+        channels: true,
+        members: true,
+      },
     });
 
     if (!server) return new ApolloError('Server not found', 'SERVER_NOT_FOUND');

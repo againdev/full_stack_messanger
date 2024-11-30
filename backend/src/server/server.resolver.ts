@@ -24,13 +24,23 @@ export class ServerResolver {
     return this.serverService.getServersByProfileEmailOfMember(email);
   }
 
+  @Query(() => Server)
+  async getServer(
+    @Args('email') email: string,
+    @Args('id', { nullable: true }) id: number,
+  ) {
+    if (!email)
+      return new ApolloError('Profile not found', 'PROFILE_NOT_FOUND');
+    return this.serverService.getServer(id, email);
+  }
+
   @Mutation(() => Server)
   async createServer(
     @Args('input') input: CreateServerDto,
     @Args('file', { type: () => GraphQLUpload, nullable: true })
     file: FileUpload,
   ) {
-    if(!file) throw new ApolloError('Image is required', 'IMAGE_REQUIRED');
+    if (!file) throw new ApolloError('Image is required', 'IMAGE_REQUIRED');
     const imageUrl = await this.storeImageAndGetUrl(file);
 
     return this.serverService.createServer(input, imageUrl);
