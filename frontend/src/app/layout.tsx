@@ -6,6 +6,7 @@ import React from "react";
 import { ClerkProvider } from "@clerk/nextjs";
 import "@mantine/core/styles.css";
 import ApolloWrapper from "../apolo/apoloWrapper";
+import { CreateServerModal } from "../components/modals/CreateServerModal";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,6 +43,7 @@ export default function RootLayout({
             <ClerkProvider
               publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
             >
+              <CreateServerModal />
               {children}
             </ClerkProvider>
           </MantineProvider>

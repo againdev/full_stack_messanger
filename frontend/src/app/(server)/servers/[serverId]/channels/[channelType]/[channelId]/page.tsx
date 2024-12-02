@@ -1,9 +1,9 @@
-import { ServerSidebar } from "@/src/components/sidebar/ServerSidebar";
+import { MobileSidebar } from "@/src/components/sidebar/MobileSidebar";
 
 export default async function ChannelPage() {
   return (
-    <div>
-      <ServerSidebar />
-    </div>
+    <>
+      <MobileSidebar />
+    </>
   );
 }

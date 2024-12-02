@@ -5,6 +5,7 @@ export const GET_SERVER = gql`
     getServer(id: $id, email: $email) {
       id
       profileId
+      name
       imageUrl
       inviteCode
       channels {

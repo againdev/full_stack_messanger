@@ -1,6 +1,4 @@
 "use client";
-
-import { CreateServerModal } from "@/src/components/modals/CreateServerModal";
 import { Sidebar } from "@/src/components/sidebar/sidebar";
 import {
   CreateProfileMutation,
@@ -61,7 +59,6 @@ export default function HomeLayout({
   return (
     <main className="min-h-screen">
       <Sidebar />
-      <CreateServerModal />
       {children}
     </main>
   );

@@ -15,8 +15,14 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  mutation CreateProfile($input: CreateProfileDto!) {\n    createProfile(input: $input) {\n      id\n      imageUrl\n      name\n      email\n    }\n  }\n": types.CreateProfileDocument,
+    "\n  mutation UpdateServerWithNewInviteCode($serverId: Float!) {\n    updateServerWithNewInviteCode(serverId: $serverId) {\n      id\n      name\n      imageUrl\n      inviteCode\n    }\n  }\n": types.UpdateServerWithNewInviteCodeDocument,
+    "\n  mutation CreateChannel($input: CreateChannelOnServerDto!, $email: String!) {\n    createChannel(input: $input, email: $email) {\n      id\n      name\n      imageUrl\n      members {\n        id\n      }\n    }\n  }\n": types.CreateChannelDocument,
     "\n  mutation CreateServer($input: CreateServerDto!, $file: Upload) {\n    createServer(input: $input, file: $file) {\n      id\n      name\n      imageUrl\n      members {\n        id\n      }\n    }\n  }\n": types.CreateServerDocument,
-    "\n  query GetServer($id: Float!, $email: String!) {\n    getServer(id: $id, email: $email) {\n      id\n      profileId\n      imageUrl\n      inviteCode\n      channels {\n        id\n        type\n        name\n      }\n      members {\n        id\n        role\n        profileId\n        profile {\n          id\n          name\n          imageUrl\n          email\n        }\n      }\n      profile {\n        id\n        name\n        imageUrl\n        email\n      }\n    }\n  }\n": types.GetServerDocument,
+    "\n  mutation DeleteChannel($channelId: Float, $email: String!) {\n    deleteChannelFromServer(channelId: $channelId, email: $email)\n  }\n": types.DeleteChannelDocument,
+    "\n  mutation DeleteServer($serverId: Float, $email: String!) {\n    deleteServer(serverId: $serverId, email: $email)\n  }\n": types.DeleteServerDocument,
+    "\n  mutation LeaveServer($serverId: Float, $email: String!) {\n    leaveServer(serverId: $serverId, email: $email)\n  }\n": types.LeaveServerDocument,
+    "\n  mutation UpdateServer($input: UpdateServerDto!, $file: Upload) {\n    updateServer(input: $input, file: $file) {\n      id\n      name\n      imageUrl\n    }\n  }\n": types.UpdateServerDocument,
+    "\n  query GetServer($id: Float!, $email: String!) {\n    getServer(id: $id, email: $email) {\n      id\n      profileId\n      name\n      imageUrl\n      inviteCode\n      channels {\n        id\n        type\n        name\n      }\n      members {\n        id\n        role\n        profileId\n        profile {\n          id\n          name\n          imageUrl\n          email\n        }\n      }\n      profile {\n        id\n        name\n        imageUrl\n        email\n      }\n    }\n  }\n": types.GetServerDocument,
     "\n  query GetServers($email: String!) {\n    getServers(email: $email) {\n      id\n      name\n      imageUrl\n    }\n  }\n": types.GetServersDocument,
 };
 
@@ -41,11 +47,35 @@ export function graphql(source: "\n  mutation CreateProfile($input: CreateProfil
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation UpdateServerWithNewInviteCode($serverId: Float!) {\n    updateServerWithNewInviteCode(serverId: $serverId) {\n      id\n      name\n      imageUrl\n      inviteCode\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateServerWithNewInviteCode($serverId: Float!) {\n    updateServerWithNewInviteCode(serverId: $serverId) {\n      id\n      name\n      imageUrl\n      inviteCode\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreateChannel($input: CreateChannelOnServerDto!, $email: String!) {\n    createChannel(input: $input, email: $email) {\n      id\n      name\n      imageUrl\n      members {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation CreateChannel($input: CreateChannelOnServerDto!, $email: String!) {\n    createChannel(input: $input, email: $email) {\n      id\n      name\n      imageUrl\n      members {\n        id\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  mutation CreateServer($input: CreateServerDto!, $file: Upload) {\n    createServer(input: $input, file: $file) {\n      id\n      name\n      imageUrl\n      members {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation CreateServer($input: CreateServerDto!, $file: Upload) {\n    createServer(input: $input, file: $file) {\n      id\n      name\n      imageUrl\n      members {\n        id\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetServer($id: Float!, $email: String!) {\n    getServer(id: $id, email: $email) {\n      id\n      profileId\n      imageUrl\n      inviteCode\n      channels {\n        id\n        type\n        name\n      }\n      members {\n        id\n        role\n        profileId\n        profile {\n          id\n          name\n          imageUrl\n          email\n        }\n      }\n      profile {\n        id\n        name\n        imageUrl\n        email\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetServer($id: Float!, $email: String!) {\n    getServer(id: $id, email: $email) {\n      id\n      profileId\n      imageUrl\n      inviteCode\n      channels {\n        id\n        type\n        name\n      }\n      members {\n        id\n        role\n        profileId\n        profile {\n          id\n          name\n          imageUrl\n          email\n        }\n      }\n      profile {\n        id\n        name\n        imageUrl\n        email\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  mutation DeleteChannel($channelId: Float, $email: String!) {\n    deleteChannelFromServer(channelId: $channelId, email: $email)\n  }\n"): (typeof documents)["\n  mutation DeleteChannel($channelId: Float, $email: String!) {\n    deleteChannelFromServer(channelId: $channelId, email: $email)\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation DeleteServer($serverId: Float, $email: String!) {\n    deleteServer(serverId: $serverId, email: $email)\n  }\n"): (typeof documents)["\n  mutation DeleteServer($serverId: Float, $email: String!) {\n    deleteServer(serverId: $serverId, email: $email)\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation LeaveServer($serverId: Float, $email: String!) {\n    leaveServer(serverId: $serverId, email: $email)\n  }\n"): (typeof documents)["\n  mutation LeaveServer($serverId: Float, $email: String!) {\n    leaveServer(serverId: $serverId, email: $email)\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateServer($input: UpdateServerDto!, $file: Upload) {\n    updateServer(input: $input, file: $file) {\n      id\n      name\n      imageUrl\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateServer($input: UpdateServerDto!, $file: Upload) {\n    updateServer(input: $input, file: $file) {\n      id\n      name\n      imageUrl\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetServer($id: Float!, $email: String!) {\n    getServer(id: $id, email: $email) {\n      id\n      profileId\n      name\n      imageUrl\n      inviteCode\n      channels {\n        id\n        type\n        name\n      }\n      members {\n        id\n        role\n        profileId\n        profile {\n          id\n          name\n          imageUrl\n          email\n        }\n      }\n      profile {\n        id\n        name\n        imageUrl\n        email\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetServer($id: Float!, $email: String!) {\n    getServer(id: $id, email: $email) {\n      id\n      profileId\n      name\n      imageUrl\n      inviteCode\n      channels {\n        id\n        type\n        name\n      }\n      members {\n        id\n        role\n        profileId\n        profile {\n          id\n          name\n          imageUrl\n          email\n        }\n      }\n      profile {\n        id\n        name\n        imageUrl\n        email\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

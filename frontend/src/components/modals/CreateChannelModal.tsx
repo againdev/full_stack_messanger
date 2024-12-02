@@ -6,6 +6,5 @@ interface Props {
 }
 
 export const CreateChannelModal: React.FC<Props> = ({ className }) => {
-  console.log("penis");
   return <div className={className}></div>;
 };

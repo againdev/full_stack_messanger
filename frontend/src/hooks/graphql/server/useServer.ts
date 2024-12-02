@@ -7,7 +7,6 @@ import { GET_SERVER } from "@/src/graphql/queries/GetServer";
 import { useProfileStore } from "@/src/store/profileStore";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
 export const useServer = (serverId: string) => {
   const profile = useProfileStore((state) => state.profile);
